@@ -50,7 +50,7 @@ form .input-box span.details{
   display: block;
   font-weight: 500;
   margin-bottom: 5px;
-}
+}/*
 form .input-box select {
   width: 100%;
   height: 45px;
@@ -64,7 +64,7 @@ form .input-box select {
   line-height: 1.1;
   background-color: #fff;
   background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
-}
+}*/
 .user-details .input-box input{
   height: 45px;
   width: 100%;
