@@ -62,7 +62,6 @@ function Inscription() {
         icon: 'success',
         title: 'Success',
         text: res.data.success,
-        timer: 1500
       })
       setNom('')
       setPrenom('')
@@ -147,8 +146,8 @@ function Inscription() {
                 <span className='text-danger'>{error.niveau}</span>
         </div>
         <div className="gender-details">
-          <input type="radio" value="Homme" checked={genre === 'Homme'} onChange={handleChange} name="genre" id="dot-1"/>
-          <input type="radio" value="Femme" checked={genre === 'Femme'} onChange={handleChange} name="genre" id="dot-2"/>
+          <input type="radio" value="G" checked={genre === 'G'} onChange={handleChange} name="genre" id="dot-1"/>
+          <input type="radio" value="F" checked={genre === 'F'} onChange={handleChange} name="genre" id="dot-2"/>
           <span className="gender-title">Genre</span>
           <div className="category">
             <label htmlFor="dot-1">

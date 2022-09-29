@@ -1,4 +1,5 @@
 import React, { useState} from "react";
+import axios from "axios";
 import { MDBFile } from 'mdb-react-ui-kit';
 import './style.css'
 import {
@@ -23,7 +24,7 @@ function getSteps() {
     "Dossiers à fournir",
     "Activités professionnelles(s'il a lieu)",
     "Activités et centres d'intérêt",
-    "Questions complémentaires",
+    "Candidature",
   ];
 }
 
@@ -53,7 +54,37 @@ function getStepContent(step,
                         nomTuteur, setNomTuteur,
                         telephoneTuteur, setTelephoneTuteur,
                         professionTuteur, setProfessionTuteur,
-                        emailTuteur, setEmailTuteur
+                        emailTuteur, setEmailTuteur,
+
+                        setSelectedDiplome,
+                        setSelectedReleveDuBacc,
+                        setSelectedReleveDeNoteSeconde,
+                        setSelectedReleveDeNotePremiere,
+                        setSelectedReleveDeNoteTerminale,
+                        setCertificatDeResidence,
+                        setSelectedCINorCIS,
+                        setSelectedPhotoIdentite,
+                        setCV,
+                        setBordereauEsti,
+
+                        nbrStage,
+                        setNbrStage,
+                        entrepriseStage,
+                        setEntrepriseStage,
+                        nbrAlternance,
+                        setNbrAlternance,
+                        entrepriseAlternance,
+                        setEntrepriseAlternance,
+                        autreActivitePro,
+                        setAutreActivitePro,
+
+                        travauxPerso,
+                        setTravauxPerso,
+                        activiteParaPro,
+                        setActiviteParaPro,
+
+                        setNiveauCandidater,
+                        setParcours
                         ) 
 {
   switch (step) {
@@ -101,7 +132,6 @@ function getStepContent(step,
                             backgroundColor: '#fff',
                             backgroundImage: 'linear-gradient(to top, #f9f9f9, #fff 33%)'
                 }}>
-                  <option value="N/A">N/A</option>
                   <option value="Celibataire">Celibataire</option>
                   <option value="Marié(e)">Marié(e)</option>
                   <option value="Veuf(ve)">Veuf(ve)</option>
@@ -219,39 +249,43 @@ function getStepContent(step,
             <div className="user-details">
               <div className="input-box">
                 <span className="details">Diplôme certifié du Baccalauréat</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setSelectedDiplome(e.target.files[0])}}/>
               </div>
               <div className="input-box">
                 <span className="details">Relevé de notes certifié du Baccalauréat</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setSelectedReleveDuBacc(e.target.files[0])}} />
               </div>
               <div className="input-box">
                 <span className="details">Relevé de notes 2nd</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setSelectedReleveDeNoteSeconde(e.target.files[0])}} />
               </div>
               <div className="input-box">
                 <span className="details">Relevé de notes 1ère</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setSelectedReleveDeNotePremiere(e.target.files[0])}} />
               </div>
               <div className="input-box">
                 <span className="details">Relevé de notes Tle</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setSelectedReleveDeNoteTerminale(e.target.files[0])}} />
               </div>
               <div className="input-box">
                 <span className="details">Certificat de résidence</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setCertificatDeResidence(e.target.files[0])}} />
               </div>
               <div className="input-box">
                 <span className="details">Photo d'identité</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setSelectedPhotoIdentite(e.target.files[0])}} />
               </div>
               <div className="input-box">
                 <span className="details">CIN certifiée ou CIS</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setSelectedCINorCIS(e.target.files[0])}} />
               </div>
               <div className="input-box">
                 <span className="details">Curriculum Vitae (CV)</span>
-                <MDBFile size='lg' id='formFileLg' />
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setCV(e.target.files[0])}} />
+              </div>
+              <div className="input-box">
+                <span className="details">Bordereau d'inscription</span>
+                <MDBFile size='lg' id='formFileLg' onChange={e =>{setBordereauEsti(e.target.files[0])}} />
               </div>
             </div>
           </form>
@@ -269,48 +303,24 @@ function getStepContent(step,
           <form action="#">
             <div className="user-details">
               <div className="input-box">
-                <span className="details">Nom</span>
-                <input type="text" placeholder="Enter your name" required/>
+                <span className="details">Nombre de Stage</span>
+                <input type="number" placeholder="Nombre de stage" value={nbrStage} onChange={(e)=>{setNbrStage(e.target.value)}}/>
               </div>
               <div className="input-box">
-                <span className="details">Prénom</span>
-                <input type="text" placeholder="Enter your username" required/>
+                <span className="details">Nom(s) d'entreprise</span>
+                <input type="text" placeholder="Entreprise" value={entrepriseStage} onChange={(e)=>{setEntrepriseStage(e.target.value)}}/>
               </div>
               <div className="input-box">
-                <span className="details">Email</span>
-                <input type="text" placeholder="Enter your email" required/>
+                <span className="details">Nombre d'alternance</span>
+                <input type="number" placeholder="Nombre d'alternance" value={nbrAlternance} onChange={(e)=>{setNbrAlternance(e.target.value)}}/>
               </div>
               <div className="input-box">
-                <span className="details">Phone Number</span>
-                <input type="text" placeholder="Enter your number" required/>
+                <span className="details">Nom(s) d'entreprise</span>
+                <input type="text" placeholder="Entreprise"value={entrepriseAlternance} onChange={(e)=>{setEntrepriseAlternance(e.target.value)}} />
               </div>
               <div className="input-box">
-                <span className="details">Password</span>
-                <input type="text" placeholder="Enter your password" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Confirm Password</span>
-                <input type="text" placeholder="Confirm your password" required />
-              </div>
-            </div>
-            <div className="gender-details">
-              <input type="radio" name="gender" id="dot-1"/>
-              <input type="radio" name="gender" id="dot-2"/>
-              <input type="radio" name="gender" id="dot-3"/>
-              <span className="gender-title">Gender</span>
-              <div className="category">
-                <label htmlFor="dot-1">
-                <span className="dot one"></span>
-                <span className="gender">Male</span>
-              </label>
-              <label htmlFor="dot-2">
-                <span className="dot two"></span>
-                <span className="gender">Female</span>
-              </label>
-              <label htmlFor="dot-3">
-                <span className="dot three"></span>
-                <span className="gender">Prefer not to say</span>
-                </label>
+                <span className="details">Autre activité professionnelle</span>
+                <input type="text" placeholder="autre" value={autreActivitePro} onChange={(e)=>{setAutreActivitePro(e.target.value)}}/>
               </div>
             </div>
           </form>
@@ -328,48 +338,12 @@ function getStepContent(step,
           <form action="#">
             <div className="user-details">
               <div className="input-box">
-                <span className="details">Nom</span>
-                <input type="text" placeholder="Enter your name" required/>
+                <span className="details" style={{marginBottom:'20px'}}>Indiquez les travaux personnels que vous avez réalisés ou les travaux collectifs auxquels vous avez participé (mémoires de recherche, articles de revues et de journaux, livres, etc.) :</span>
+                <textarea placeholder="Description" value={travauxPerso} onChange={e=>setTravauxPerso(e.target.value)} style={{height:'20vh'}} />
               </div>
               <div className="input-box">
-                <span className="details">Prénom</span>
-                <input type="text" placeholder="Enter your username" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Email</span>
-                <input type="text" placeholder="Enter your email" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Phone Number</span>
-                <input type="text" placeholder="Enter your number" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Password</span>
-                <input type="text" placeholder="Enter your password" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Confirm Password</span>
-                <input type="text" placeholder="Confirm your password" required />
-              </div>
-            </div>
-            <div className="gender-details">
-              <input type="radio" name="gender" id="dot-1"/>
-              <input type="radio" name="gender" id="dot-2"/>
-              <input type="radio" name="gender" id="dot-3"/>
-              <span className="gender-title">Gender</span>
-              <div className="category">
-                <label htmlFor="dot-1">
-                <span className="dot one"></span>
-                <span className="gender">Male</span>
-              </label>
-              <label htmlFor="dot-2">
-                <span className="dot two"></span>
-                <span className="gender">Female</span>
-              </label>
-              <label htmlFor="dot-3">
-                <span className="dot three"></span>
-                <span className="gender">Prefer not to say</span>
-                </label>
+                <span className="details" style={{marginBottom:'40px'}}>Indiquez les activités autres que professionnelles ou d’études dans lesquelles vous vous êtes impliqué (associations…) :</span>
+                <textarea placeholder="Description" value={activiteParaPro} onChange={e=>setActiviteParaPro(e.target.value)} style={{height:'20vh'}}/>
               </div>
             </div>
           </form>
@@ -386,50 +360,52 @@ function getStepContent(step,
         <div className="content">
           <form action="#">
             <div className="user-details">
-              <div className="input-box">
-                <span className="details">Nom</span>
-                <input type="text" placeholder="Enter your name" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Prénom</span>
-                <input type="text" placeholder="Enter your username" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Email</span>
-                <input type="text" placeholder="Enter your email" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Phone Number</span>
-                <input type="text" placeholder="Enter your number" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Password</span>
-                <input type="text" placeholder="Enter your password" required/>
-              </div>
-              <div className="input-box">
-                <span className="details">Confirm Password</span>
-                <input type="text" placeholder="Confirm your password" required />
-              </div>
-            </div>
-            <div className="gender-details">
-              <input type="radio" name="gender" id="dot-1"/>
-              <input type="radio" name="gender" id="dot-2"/>
-              <input type="radio" name="gender" id="dot-3"/>
-              <span className="gender-title">Gender</span>
-              <div className="category">
-                <label htmlFor="dot-1">
-                <span className="dot one"></span>
-                <span className="gender">Male</span>
-              </label>
-              <label htmlFor="dot-2">
-                <span className="dot two"></span>
-                <span className="gender">Female</span>
-              </label>
-              <label htmlFor="dot-3">
-                <span className="dot three"></span>
-                <span className="gender">Prefer not to say</span>
-                </label>
-              </div>
+            <div className="input-box">
+                <span className="details">Niveau à candidater</span>
+                <select name="Niveau à candidater" onChange={e=>{setNiveauCandidater(e.target.value)}} style={{
+                            width: '100%',
+                            height: '45px',
+                            minWidth: '15ch',
+                            maxWidth: '30ch',
+                            border: '1px solid #ccc',
+                            borderRadius: '0.25em',
+                            padding: '0.25em 0.5em',
+                            fontSize: '15px',
+                            cursor: 'pointer',
+                            lineHeight: '1.1',
+                            backgroundColor: '#fff',
+                            backgroundImage: 'linear-gradient(to top, #f9f9f9, #fff 33%)'
+                }}>
+                  <option value="N/A">N/A</option>
+                  <option value="L1">L1</option>
+                  <option value="L2">L2</option>
+                  <option value="L3">L3</option>
+                  <option value="M1">M1</option>
+                  <option value="M2">M2</option>
+                </select>
+        </div>
+        <div className="input-box">
+                <span className="details">Parcours</span>
+                <select name="Choix de parcours" onChange={e=>{setParcours(e.target.value)}} style={{
+                            width: '100%',
+                            height: '45px',
+                            minWidth: '15ch',
+                            maxWidth: '30ch',
+                            border: '1px solid #ccc',
+                            borderRadius: '0.25em',
+                            padding: '0.25em 0.5em',
+                            fontSize: '15px',
+                            cursor: 'pointer',
+                            lineHeight: '1.1',
+                            backgroundColor: '#fff',
+                            backgroundImage: 'linear-gradient(to top, #f9f9f9, #fff 33%)'
+                }}>
+                  <option value="N/A">N/A</option>
+                  <option value="Réseau et système">Réseau et système</option>
+                  <option value="Intégration et développement">Intégration et développement</option>
+                  <option value="Choix non fixé"> Choix non fixé</option>
+                </select>
+        </div>
             </div>
           </form>
         </div>
@@ -443,6 +419,7 @@ function getStepContent(step,
 }
 
 const LinaerStepper = () => {
+  ///////////////////////////////////////////////////////////////////////
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [skippedSteps, setSkippedSteps] = useState([]);
@@ -458,7 +435,8 @@ const LinaerStepper = () => {
   const [email, setEmail] = useState('')
   const [telephone, setTelephone] = useState('')
   const [genre, setGenre] = useState('')
-
+  
+  /////////////////////////////////////////////////////////////////////
   const [nomPere, setNomPere] = useState('')
   const [telephonePere, setTelephonePere] = useState('')
   const [professionPere, setProfessionPere] = useState('')
@@ -472,15 +450,68 @@ const LinaerStepper = () => {
   const [professionTuteur, setProfessionTuteur] = useState('')
   const [emailTuteur, setEmailTuteur] = useState('')
 
+///////////////////////////////////////////File to upload//////////////////////////////////////////////////
+  const [selectedDiplome, setSelectedDiplome] = useState(null)
+  const [selectedReleveDeNoteBacc,setSelectedReleveDuBacc] = useState(null)
+  const [selectedReleveDeNoteSeconde,setSelectedReleveDeNoteSeconde] = useState(null)
+  const [selectedReleveDeNotePremiere,setSelectedReleveDeNotePremiere] = useState(null)
+  const [selectedReleveDeNoteTerminale,setSelectedReleveDeNoteTerminale] = useState(null)
+  const [certificatDeResidence,setCertificatDeResidence] = useState(null)
+  const [selectedPhoto,setSelectedPhotoIdentite] = useState(null)
+  const [selectedCINorCIS,setSelectedCINorCIS] = useState(null)
+  const [cv,setCV] = useState(null)
+  const [bordereauEsti,setBordereauEsti] = useState(null)
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  const [nbrStage,setNbrStage] = useState('')
+  const [entrepriseStage,setEntrepriseStage] = useState('')
+  const [nbrAlternance,setNbrAlternance] = useState('')
+  const [entrepriseAlternance,setEntrepriseAlternance] = useState('')
+  const [autreActivitePro,setAutreActivitePro] = useState('')
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  const [travauxPerso,setTravauxPerso] = useState('')
+  const [activiteParaPro,setActiviteParaPro] = useState('')
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
+  const [niveauCandidater,setNiveauCandidater] = useState('')
+  const [parcours,setParcours] = useState('') 
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
   const handleChange = e => {
     const target = e.target;
     if (target.checked) {
       setGenre(target.value);
     }
  };
- const handlesubmit = () => {
-  console.log({nom, 
+ const handlesubmit = async (e) => {
+  e.preventDefault()
+  console.log({
+    niveauCandidater,
+    parcours
+  })
+  /*console.log({
+    travauxPerso,
+    activiteParaPro
+ })*/
+  /*console.log({
+    nbrStage,
+    entrepriseStage,
+    nbrAlternance,
+    entrepriseAlternance,
+    autreActivitePro
+  })*/
+  console.log(
+    selectedDiplome,
+    selectedReleveDeNoteBacc,
+    selectedReleveDeNoteSeconde,
+    selectedReleveDeNotePremiere,
+    selectedReleveDeNoteTerminale,
+    certificatDeResidence,
+    selectedPhoto,
+    selectedCINorCIS,
+    cv,
+    bordereauEsti)
+  /*console.log({nom, 
               prenom, 
               dateDeNaissance, 
               lieuDeNaissance, 
@@ -502,9 +533,40 @@ const LinaerStepper = () => {
               nomTuteur,
               telephoneTuteur,
               professionTuteur,
-              emailTuteur
-
-              })
+              emailTuteur,
+              selectedDiplome
+              })*/
+            
+                
+                const formData = new FormData(); 
+                  
+                  formData.append( 
+                    selectedDiplome,
+                    selectedReleveDeNoteBacc,
+                    selectedReleveDeNoteSeconde,
+                    selectedReleveDeNotePremiere,
+                    selectedReleveDeNoteTerminale,
+                    certificatDeResidence,
+                    selectedPhoto,
+                    selectedCINorCIS,
+                    cv,
+                    bordereauEsti
+                  ); 
+                  
+                // Update the formData object 
+                const res = await axios({
+                  method: "post",
+                  url: "http://localhost:8000/api/candidats",
+                  data: formData,
+                  headers: { "Content-Type": "multipart/form-data" },
+                });
+                if(res.data.success === '1'){
+                  console.log(res.data.success)
+                }
+                else{
+                  console.log(res.data.retour)
+                }
+    
 }
   const isStepOptional = (step) => {
     return step === 1 || step === 2;
@@ -580,7 +642,31 @@ const LinaerStepper = () => {
                                 nomTuteur, setNomTuteur,
                                 telephoneTuteur, setTelephoneTuteur,
                                 professionTuteur, setProfessionTuteur,
-                                emailTuteur, setEmailTuteur
+                                emailTuteur, setEmailTuteur,
+
+                                setSelectedDiplome,
+                                setSelectedReleveDuBacc,
+                                setSelectedReleveDeNoteSeconde,
+                                setSelectedReleveDeNotePremiere,
+                                setSelectedReleveDeNoteTerminale,
+                                setCertificatDeResidence,
+                                setSelectedCINorCIS,
+                                setSelectedPhotoIdentite,
+                                setCV,
+                                setBordereauEsti,
+
+                                nbrStage,setNbrStage,
+                                entrepriseStage,setEntrepriseStage,
+                                nbrAlternance,setNbrAlternance,
+                                entrepriseAlternance,setEntrepriseAlternance,
+                                autreActivitePro,setAutreActivitePro,
+
+                                travauxPerso,setTravauxPerso,
+                                activiteParaPro,setActiviteParaPro,
+
+                                setNiveauCandidater,
+                                setParcours   
+
                                 )}</form>
           <Button
             className={classes.button}
