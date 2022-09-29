@@ -485,10 +485,62 @@ const LinaerStepper = () => {
  };
  const handlesubmit = async (e) => {
   e.preventDefault()
+  console.log(
+    {
+      nom, 
+      prenom, 
+      dateDeNaissance, 
+      lieuDeNaissance, 
+      nationalite, 
+      nbrEnfant,
+      status,
+      personnalAdress,
+      telephone, 
+      email,
+      genre,
+
+      nomPere,
+      telephonePere,
+      professionPere,
+      emailPere,
+      nomMere,
+      telephoneMere,
+      professionMere,
+      emailMere,
+      nomTuteur,
+      telephoneTuteur,
+      professionTuteur,
+      emailTuteur,
+
+      selectedDiplome,
+      selectedReleveDeNoteBacc,
+      selectedReleveDeNoteSeconde,
+      selectedReleveDeNotePremiere,
+      selectedReleveDeNoteTerminale,
+      certificatDeResidence,
+      selectedPhoto,
+      selectedCINorCIS,
+      cv,
+      bordereauEsti,
+
+      nbrStage,
+      entrepriseStage,
+      nbrAlternance,
+      entrepriseAlternance,
+      autreActivitePro,
+
+      travauxPerso,
+      activiteParaPro,
+  
+      niveauCandidater,
+      parcours
+    }
+  )
+  /*
   console.log({
     niveauCandidater,
     parcours
-  })
+  })*/
   /*console.log({
     travauxPerso,
     activiteParaPro
@@ -500,6 +552,7 @@ const LinaerStepper = () => {
     entrepriseAlternance,
     autreActivitePro
   })*/
+  /*
   console.log(
     selectedDiplome,
     selectedReleveDeNoteBacc,
@@ -510,8 +563,9 @@ const LinaerStepper = () => {
     selectedPhoto,
     selectedCINorCIS,
     cv,
-    bordereauEsti)
-  /*console.log({nom, 
+    bordereauEsti)*/
+  /*console.log({
+              nom, 
               prenom, 
               dateDeNaissance, 
               lieuDeNaissance, 
