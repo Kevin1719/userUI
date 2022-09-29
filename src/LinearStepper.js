@@ -598,6 +598,7 @@ const LinaerStepper = () => {
             color="primary"
             disabled={activeStep === steps.length - 1 ? true : false}
             onClick={handleNext}
+            //onClick={()=>{handleNext(); handlesubmit()}}
             style={{marginBottom:'20px'}}
           >
             {activeStep === steps.length - 1 ? "Finish" : "Next"}
