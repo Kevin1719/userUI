@@ -1,5 +1,6 @@
 import React, { useState} from "react";
 import axios from "axios";
+import Swal from 'sweetalert2'
 import { MDBFile } from 'mdb-react-ui-kit';
 import './style.css'
 import {
@@ -34,8 +35,8 @@ function getStepContent(step,
                         dateDeNaissance, setDateDeNaissance,
                         lieuDeNaissance, setLieuDeNaissance,
                         nationalite, setNationalite,
-                        status, setStatus,
-                        nbrEnfant, setNbrEnfant,
+                        situationFamiliale, setStatus,
+                        nombreEnfant, setNbrEnfant,
                         personnalAdress, setPersonnalAdress,
                         email, setEmail,
                         telephone, setTelephone,
@@ -139,7 +140,7 @@ function getStepContent(step,
               </div>
               <div className="input-box">
                 <span className="details">Nombre d'enfant</span>
-                <input type="number" placeholder="Nombre d'enfant" required value={nbrEnfant} onChange={(e)=>{setNbrEnfant(e.target.value)}} />
+                <input type="number" placeholder="Nombre d'enfant" required value={nombreEnfant} onChange={(e)=>{setNbrEnfant(e.target.value)}} />
               </div>
               <div className="input-box">
                 <span className="details">Adresse personnel</span>
@@ -429,8 +430,8 @@ const LinaerStepper = () => {
   const [dateDeNaissance, setDateDeNaissance] = useState(Date)
   const [lieuDeNaissance, setLieuDeNaissance] = useState('')
   const [nationalite, setNationalite] = useState('')
-  const [status, setStatus] = useState('')
-  const [nbrEnfant, setNbrEnfant] = useState('')
+  const [situationFamiliale, setStatus] = useState('')
+  const [nombreEnfant, setNbrEnfant] = useState('')
   const [personnalAdress, setPersonnalAdress] = useState('')
   const [email, setEmail] = useState('')
   const [telephone, setTelephone] = useState('')
@@ -456,7 +457,7 @@ const LinaerStepper = () => {
   const [selectedReleveDeNoteSeconde,setSelectedReleveDeNoteSeconde] = useState(null)
   const [selectedReleveDeNotePremiere,setSelectedReleveDeNotePremiere] = useState(null)
   const [selectedReleveDeNoteTerminale,setSelectedReleveDeNoteTerminale] = useState(null)
-  const [certificatDeResidence,setCertificatDeResidence] = useState(null)
+  const [certificatDeResidance,setCertificatDeResidence] = useState(null)
   const [selectedPhoto,setSelectedPhotoIdentite] = useState(null)
   const [selectedCINorCIS,setSelectedCINorCIS] = useState(null)
   const [cv,setCV] = useState(null)
@@ -485,7 +486,7 @@ const LinaerStepper = () => {
  };
  const handlesubmit = async (e) => {
   e.preventDefault()
-  console.log(
+ /* console.log(
     {
       nom, 
       prenom, 
@@ -535,7 +536,7 @@ const LinaerStepper = () => {
       niveauCandidater,
       parcours
     }
-  )
+  )*/
   /*
   console.log({
     niveauCandidater,
@@ -590,35 +591,48 @@ const LinaerStepper = () => {
               emailTuteur,
               selectedDiplome
               })*/
-            
-                
-                const formData = new FormData(); 
-                  
-                  formData.append( 
-                    selectedDiplome,
-                    selectedReleveDeNoteBacc,
-                    selectedReleveDeNoteSeconde,
-                    selectedReleveDeNotePremiere,
-                    selectedReleveDeNoteTerminale,
-                    certificatDeResidence,
-                    selectedPhoto,
-                    selectedCINorCIS,
-                    cv,
-                    bordereauEsti
-                  ); 
-                  
+              const formData = new FormData(); 
+              formData.append("nom", nom)
+              formData.append("prenom", prenom)
+              formData.append(" dateDeNaissance",  dateDeNaissance)
+              formData.append("lieuDeNaissance", lieuDeNaissance)
+              formData.append("nationalite, ", nationalite, )
+              formData.append("nbrEnfant,", nombreEnfant,)
+              formData.append("status", situationFamiliale)
+              formData.append("personnalAdress", personnalAdress)
+              formData.append("telephone", telephone)
+              formData.append("email", email)
+              formData.append("genre", genre)
+              formData.append("selectedDiplome", selectedDiplome)
+              formData.append("selectedReleveDeNoteBacc", selectedReleveDeNoteBacc)
+              formData.append(" selectedReleveDeNoteSeconde",  selectedReleveDeNoteSeconde)
+              formData.append("selectedReleveDeNotePremiere", selectedReleveDeNotePremiere)
+              formData.append("selectedReleveDeNoteTerminale", selectedReleveDeNoteTerminale)
+              formData.append("certificatDeResidance", certificatDeResidance)
+              formData.append("selectedPhoto,", selectedPhoto,)
+              formData.append("cv", cv)
+              formData.append("bordereauEsti", bordereauEsti)
                 // Update the formData object 
                 const res = await axios({
                   method: "post",
                   url: "http://localhost:8000/api/candidats",
                   data: formData,
-                  headers: { "Content-Type": "multipart/form-data" },
+                  //headers: {'Content-Type': 'multipart/form-data' }
                 });
-                if(res.data.success === '1'){
-                  console.log(res.data.success)
+                if(res.status === 200){
+                  Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Nice',
+                  })
                 }
                 else{
-                  console.log(res.data.retour)
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                    footer: '<a href="">Why do I have this issue?</a>'
+                  })
                 }
     
 }
@@ -676,8 +690,8 @@ const LinaerStepper = () => {
         <>
           <form>{getStepContent(activeStep, nom, setNom,prenom, setPrenom, dateDeNaissance, setDateDeNaissance,
                                 lieuDeNaissance, setLieuDeNaissance,
-                                nationalite, setNationalite,status, setStatus,
-                                nbrEnfant, setNbrEnfant,
+                                nationalite, setNationalite,situationFamiliale, setStatus,
+                                nombreEnfant, setNbrEnfant,
                                 personnalAdress, setPersonnalAdress,
                                 email, setEmail,
                                 telephone, setTelephone,

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { MDBFile } from 'mdb-react-ui-kit';
 import Swal from 'sweetalert2'
 import './Inscription.css'
 import {useState} from 'react'
@@ -12,6 +13,7 @@ function Inscription() {
   const [adresse, setAdresse] = useState('')
   const [genre, setGenre] = useState('')
   const [niveau, setNiveau] = useState('')
+  const [bordereauDeDonnee,setBordereauDeDonnee] = useState(null)
   const [error, setError] = useState([])
   const handleChange = e => {
     e.preventDefault()
@@ -22,42 +24,24 @@ function Inscription() {
  };
   const handlesubmit = async (e) => {
     e.preventDefault()
-    const data = {nom, prenom, email, contact, serie, adresse, niveau, genre}
-    /*console.log(data)
-    fetch('http://localhost:8000/api/preparatoires',{
-      method:'POST',
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(data)
-    }).then((res)=>{
-      if(res.status === 200){
-        Swal.fire({
-          icon: 'success',
-          title: 'Success',
-          text: 'Inscription avec succès',
-          timer: 1500
-        });setNom('')
-        setPrenom('')
-        setEmail('')
-        setContact('')
-        setSerie('')
-        setAdresse('')
-        setNiveau('')
-        setGenre('')
-      }
-      else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Something went wrong!',
-          footer: '<a href="">Why do I have this issue?</a>'
-        })
-      }
-      
-    }).catch(err=>console.error(err))*/
-    const res = await axios.post('http://localhost:8000/api/preparatoires',data);
-    
+    const formData = new FormData()
+    formData.append("nom",nom)
+    formData.append("prenom",prenom)
+    formData.append("email",email)
+    formData.append("contact",contact)
+    formData.append("serie",serie)
+    formData.append("adresse",adresse)
+    formData.append("niveau", niveau)
+    formData.append("genre",genre)
+    formData.append("bordereauDeDonnee", bordereauDeDonnee)
+
+    const res = await axios({
+      method:"POST",
+      url:"http://localhost:8000/api/preparatoires",
+      data: formData,
+  //    headers:{"Content-type" : "multipart/form-data"}
+    })
     if(res.data.success === 'Inscription reussie'){
-      console.log(res.data.success)
       Swal.fire({
         icon: 'success',
         title: 'Success',
@@ -71,6 +55,7 @@ function Inscription() {
       setAdresse('')
       setNiveau('')
       setGenre('')
+      setBordereauDeDonnee(null)
 
     }
     else if(res.data.validate_err){
@@ -120,7 +105,7 @@ function Inscription() {
             <span className='text-danger'>{error.adresse}</span>
           </div>
         </div>
-        <div className="input-box">
+        <div className="input-box" style={{marginBottom:'20px'}}>
                 <span className="details">Niveau</span>
                 <select name="niveau" onChange={(e)=>{e.preventDefault();setNiveau(e.target.value)}} style={{
                             width: '100%',
@@ -144,6 +129,12 @@ function Inscription() {
                   <option value="M2">M2</option>
                 </select>
                 <span className='text-danger'>{error.niveau}</span>
+        </div>
+        <div className="input-box">
+            <span className='text-danger'>{error.bordereauDeDonnee}</span>
+            <span className="details">Bordereau de payment</span>
+            <MDBFile size='sm' id='formFileLg' onChange={e=>{setBordereauDeDonnee(e.target.files[0])}} />
+
         </div>
         <div className="gender-details">
           <input type="radio" value="G" checked={genre === 'G'} onChange={handleChange} name="genre" id="dot-1"/>
