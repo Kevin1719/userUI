@@ -68,12 +68,13 @@ function Candidature() {
         })
         
         const formData = new FormData(); 
+
         formData.append("nom", nom)
         formData.append("prenom", prenom)
         formData.append("dateDeNaissance",  dateDeNaissance)
         formData.append("lieuDeNaissance", lieuDeNaissance)
         formData.append("nationalite", nationalite, )
-        formData.append("nombreEnfant" ,parseInt(nombreEnfant))
+        formData.append("nombreEnfant" ,nombreEnfant)
         formData.append("situationFamiliale", situationFamiliale)
         formData.append("adresse", adresse)
         formData.append("contact", contact)
@@ -94,7 +95,7 @@ function Candidature() {
         formData.append('nbrStage',nbrStage)
         formData.append('entrepriseStage', entrepriseStage)
         formData.append('nbrAlternance',nbrAlternance)
-        formData.append('entrepriseStage', entrepriseStage)
+        formData.append('entrepriseAlternance', entrepriseAlternance)
 
         formData.append('travauxPerso', travauxPerso)
         formData.append('activiteParaPro', activiteParaPro)
@@ -336,6 +337,7 @@ function Candidature() {
                                         <option value={'M1'}>M1</option>
                                         <option value={'M2'}>M2</option>
                                     </select>
+                                    <span className='text-danger'>{error.postule}</span>
                                 </div>
                                 <div className="input-field">
                                     <label></label>
