@@ -11,6 +11,7 @@ import {
   StepLabel,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -240,7 +241,7 @@ function getStepContent(step,
       </div>
     
       )
-    case 2:
+    case 5:
       return (
         <div className='conteneur'>
         <div className="container1">
@@ -353,7 +354,7 @@ function getStepContent(step,
       </div>
     
       )
-      case 5:
+      case 2:
       return (
         <div className='conteneur'>
         <div className="container1">
@@ -485,7 +486,7 @@ const LinaerStepper = () => {
     }
  };
  const handlesubmit = async (e) => {
-  e.preventDefault()
+    e.preventDefault()
  /* console.log(
     {
       nom, 
@@ -591,50 +592,49 @@ const LinaerStepper = () => {
               emailTuteur,
               selectedDiplome
               })*/
-              const formData = new FormData(); 
-              formData.append("nom", nom)
-              formData.append("prenom", prenom)
-              formData.append(" dateDeNaissance",  dateDeNaissance)
-              formData.append("lieuDeNaissance", lieuDeNaissance)
-              formData.append("nationalite, ", nationalite, )
-              formData.append("nbrEnfant,", nombreEnfant,)
-              formData.append("status", situationFamiliale)
-              formData.append("personnalAdress", personnalAdress)
-              formData.append("telephone", telephone)
-              formData.append("email", email)
-              formData.append("genre", genre)
-              formData.append("selectedDiplome", selectedDiplome)
-              formData.append("selectedReleveDeNoteBacc", selectedReleveDeNoteBacc)
-              formData.append(" selectedReleveDeNoteSeconde",  selectedReleveDeNoteSeconde)
-              formData.append("selectedReleveDeNotePremiere", selectedReleveDeNotePremiere)
-              formData.append("selectedReleveDeNoteTerminale", selectedReleveDeNoteTerminale)
-              formData.append("certificatDeResidance", certificatDeResidance)
-              formData.append("selectedPhoto,", selectedPhoto,)
-              formData.append("cv", cv)
-              formData.append("bordereauEsti", bordereauEsti)
-                // Update the formData object 
-                const res = await axios({
-                  method: "post",
-                  url: "http://localhost:8000/api/candidats",
-                  data: formData,
-                  //headers: {'Content-Type': 'multipart/form-data' }
-                });
-                if(res.status === 200){
-                  Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Nice',
-                  })
-                }
-                else{
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong!',
-                    footer: '<a href="">Why do I have this issue?</a>'
-                  })
-                }
-    
+    const formData = new FormData(); 
+    formData.append("nom", nom)
+    formData.append("prenom", prenom)
+    formData.append(" dateDeNaissance",  dateDeNaissance)
+    formData.append("lieuDeNaissance", lieuDeNaissance)
+    formData.append("nationalite, ", nationalite, )
+    formData.append("nbrEnfant,", nombreEnfant,)
+    formData.append("status", situationFamiliale)
+    formData.append("personnalAdress", personnalAdress)
+    formData.append("telephone", telephone)
+    formData.append("email", email)
+    formData.append("genre", genre)
+    formData.append("selectedDiplome", selectedDiplome)
+    formData.append("selectedReleveDeNoteBacc", selectedReleveDeNoteBacc)
+    formData.append(" selectedReleveDeNoteSeconde",  selectedReleveDeNoteSeconde)
+    formData.append("selectedReleveDeNotePremiere", selectedReleveDeNotePremiere)
+    formData.append("selectedReleveDeNoteTerminale", selectedReleveDeNoteTerminale)
+    formData.append("certificatDeResidance", certificatDeResidance)
+    formData.append("selectedPhoto,", selectedPhoto,)
+    formData.append("cv", cv)
+    formData.append("bordereauEsti", bordereauEsti)
+      // Update the formData object 
+      const res = await axios({
+        method: "post",
+        url: "http://localhost:8000/api/candidats",
+        data: formData,
+        //headers: {'Content-Type': 'multipart/form-data' }
+      });
+      if(res.status === 200){
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Nice',
+        })
+      }
+      else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Something went wrong!',
+          footer: '<a href="">Why do I have this issue?</a>'
+        })
+      }
 }
   const isStepOptional = (step) => {
     return step === 1 || step === 2;
